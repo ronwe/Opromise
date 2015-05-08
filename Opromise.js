@@ -4,6 +4,7 @@ var util = require('util')
 exports.set = function(){
 	var args  =  Array.prototype.slice.call(arguments)
 	var seqs = []
+	var defaultErrHelper
 
 	function cbk(err , result){
 		var nextFn = seqs.splice(0 , 1)[0]
@@ -66,9 +67,13 @@ exports.set = function(){
 	args.push(cbk)
 	var inO = {
 		'then' : function(seqFn ,errFn){
-			seqs.push([seqFn ,errFn])
-			return inO
+			seqs.push([seqFn ,undefined === errFn ? defaultErrHelper : errFn])
+			return this 
 		}
+		 ,'setErrHelper' : function(errFn){
+            defaultErrHelper = errFn
+			return this
+        }
 	}
 	setImmediate(function(){
 		cbk(null , args)
