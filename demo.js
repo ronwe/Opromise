@@ -9,7 +9,7 @@ var pwd = __dirname
 O.set(pwd)
     .then(fs.exists)
     .then(function(exists ,cbk){
-        cbk (null , [pwd + '/t.txt' ,   exists])
+        cbk (null , pwd + '/t.txt' )
         } , false)
     .then(fs.writeFile)
     .then(function(f , cbk){
